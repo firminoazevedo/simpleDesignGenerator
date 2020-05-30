@@ -49,6 +49,10 @@ class _HomePageState extends State<HomePage> {
 
   double txtTopMargin;
 
+  double imageRatio = 1.0;
+
+  bool _switchValue = true;
+
   File _image;
   File _imageFile;
 
@@ -95,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 child: Stack(
                   children: <Widget>[
                     AspectRatio(
-                      aspectRatio: 1.0,
+                      aspectRatio: _switchValue ? 1.0 : 1.7,
                       child: _image != null
                           ? Image.file(_image, fit: BoxFit.cover)
                           : Container(),
@@ -139,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                     ),
 
                     // texto do meio
-                    Positioned(
+                    (headerText.length > 0) ?  Positioned(
                       top: MediaQuery.of(context).size.width / 1.52,
                       left: 80,
                       right: 80,
@@ -160,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                    ),
+                    ) : Container(),
 
                     // texto de especialidade
                     Positioned(
@@ -225,6 +229,7 @@ class _HomePageState extends State<HomePage> {
                                   icon: Icon(Icons.text_fields),
                                   hintText: "Texto central"),
                           ),
+
                           TextField(
                             
                             onChanged: (val) {
@@ -254,11 +259,26 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 20,
                           ),
-                          RaisedButton(
-                            onPressed: () {
-                              takeScreenshot();
-                            },
-                            child: Text("Salvar"),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+
+                              Switch(
+                              value: _switchValue,
+                              onChanged: (newValue){
+                                setState(() {
+                                  _switchValue = newValue;
+                                });
+                              }),
+                              
+                              RaisedButton(
+                                onPressed: () {
+                                  takeScreenshot();
+                                },
+                                child: Text("Salvar"),
+                              ),
+                            ],
                           )
                         ],
                       ),
