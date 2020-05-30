@@ -150,8 +150,9 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.white,
                         ),
                         child: Center(
-                          child: Text(
+                          child: AutoSizeText(
                             headerText.toUpperCase(),
+                            maxLines: 1,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 17,
@@ -170,8 +171,9 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                         decoration: BoxDecoration(),
                         child: Center(
-                          child: Text(
+                          child: AutoSizeText(
                             footerText.toUpperCase(),
+                            maxLines: 1,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 17,
