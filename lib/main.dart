@@ -43,6 +43,12 @@ class _HomePageState extends State<HomePage> {
   String footerText = "";
   String centerText = "";
 
+  int mxLine = 1;
+
+  double mxFontSize = 42;
+
+  double txtTopMargin;
+
   File _image;
   File _imageFile;
 
@@ -103,27 +109,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ) : Container(),
                     
-                    // texto central
-                    /*Positioned(
-                      top: MediaQuery.of(context).size.width / 2,
-                      left: 90,
-                      child: RotationTransition(
-                        turns: AlwaysStoppedAnimation(-8 / 360),
-                        child: Center(
-                          child: AutoSizeText(
-                            centerText.toUpperCase(),
-                            maxFontSize: 28,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 35,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),*/
 
                     Positioned(
-                      top: MediaQuery.of(context).size.width / 2,
+                      top: MediaQuery.of(context).size.width / 2.15,
                       left: 80,
                       right: 80,
                       child: Container(
@@ -137,11 +125,12 @@ class _HomePageState extends State<HomePage> {
                             child: Center(
                             child: AutoSizeText(
                               centerText.toUpperCase(),
-                              maxLines: 1,
-                              maxFontSize: 28,
+                              textAlign: TextAlign.center,
+                              maxLines: mxLine,
+                              maxFontSize: mxFontSize,
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 28,
+                                  fontSize: mxFontSize,
                                   color: Colors.white),
                             ),
                           ),
@@ -215,6 +204,16 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           TextField(
                             onChanged: (val) {
+
+                              if (val.length > 13){
+                                setState(() {
+                                  mxFontSize = 24;
+                                  mxLine = 2;
+                                });
+                              } else {
+                                mxFontSize = 42;
+                                mxLine = 1;
+                              }
                               setState(() {
                                 centerText = val;
                               });
