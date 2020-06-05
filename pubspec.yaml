@@ -24,6 +24,7 @@ dependencies:
   image_gallery_saver: ^1.2.2
   permission_handler: ^4.2.0+hotfix.3
   image_size_getter: ^0.1.0
+  google_fonts: ^0.3.2
   dio:
 
   # The following adds the Cupertino Icons font to your application.

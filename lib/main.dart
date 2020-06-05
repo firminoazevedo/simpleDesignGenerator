@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -118,6 +119,7 @@ class _HomePageState extends State<HomePage> {
                       top: MediaQuery.of(context).size.width / 2.15,
                       left: 80,
                       right: 80,
+                      bottom: 140,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                         decoration: BoxDecoration(
@@ -132,8 +134,8 @@ class _HomePageState extends State<HomePage> {
                               textAlign: TextAlign.center,
                               maxLines: mxLine,
                               maxFontSize: mxFontSize,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w900,
+                              style: GoogleFonts.fredokaOne(
+                                  fontWeight: FontWeight.w500,
                                   fontSize: mxFontSize,
                                   color: Colors.white),
                             ),
@@ -145,21 +147,21 @@ class _HomePageState extends State<HomePage> {
                     // texto do meio
                     (headerText.length > 0) ?  Positioned(
                       top: MediaQuery.of(context).size.width / 1.52,
-                      left: 80,
-                      right: 80,
+                      left: 95,
+                      right: 95,
                       child: Container(
-                        padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                        padding: EdgeInsets.fromLTRB(7, 2, 7, 2),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(80),
                           color: Colors.white,
                         ),
                         child: Center(
                           child: AutoSizeText(
-                            headerText.toUpperCase(),
+                            headerText,
                             maxLines: 1,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 17,
+                            style: GoogleFonts.oleoScript(
+                                //fontWeight: FontWeight.w400,
+                                fontSize: 19,
                                 color: Color.fromRGBO(11, 56, 40, 1)),
                           ),
                         ),
@@ -178,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                           child: AutoSizeText(
                             footerText.toUpperCase(),
                             maxLines: 1,
-                            style: TextStyle(
+                            style: GoogleFonts.abel(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 17,
                                 color: Colors.white),
