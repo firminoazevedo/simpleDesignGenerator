@@ -40,6 +40,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey globalKey = new GlobalKey();
 
+  String bg = "assets/bg01.png";
   String headerText = "";
   String footerText = "";
   String centerText = "";
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                     _image != null ? AspectRatio(
                       aspectRatio: 1.0,
                       child: Image.asset(
-                        "assets/bg.png",
+                        bg,
                       ),
                     ) : Container(),
                     
@@ -270,6 +271,13 @@ class _HomePageState extends State<HomePage> {
                               value: _switchValue,
                               onChanged: (newValue){
                                 setState(() {
+                                  
+                                  if (bg == "assets/bg01.png"){
+                                    bg = "assets/bg02.png";
+                                  } else {
+                                    bg = "assets/bg01.png";
+                                  }
+
                                   _switchValue = newValue;
                                 });
                               }),
