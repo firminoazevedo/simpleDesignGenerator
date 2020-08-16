@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker: ^0.6.3+1
-  path_provider:
+  path_provider: ^1.6.11
   image_gallery_saver: ^1.2.2
   permission_handler: ^4.2.0+hotfix.3
   image_size_getter: ^0.1.0

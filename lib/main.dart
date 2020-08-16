@@ -75,6 +75,10 @@ class _HomePageState extends State<HomePage> {
       } else {}
       _image = image;
     });
+
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    
+    
     new Directory('storage/emulated/0/' + 'MemeGenerator')
         .create(recursive: true);
   }
@@ -352,6 +356,6 @@ class _HomePageState extends State<HomePage> {
 
   _askPermission() async {
     Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler().requestPermissions([PermissionGroup.photos]);
+        await PermissionHandler().requestPermissions([PermissionGroup.photos, PermissionGroup.storage]);
   }
 }
