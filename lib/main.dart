@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:example_meme_generator/medicos.dart';
 import 'package:example_meme_generator/posts.dart';
 import 'package:flutter/material.dart';
@@ -65,37 +64,35 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  buildCardWidget(Color _color, String texto, Widget page, String image_asset) {
+  buildCardWidget(Color _color, String texto, Widget page, String imageasset) {
     return InkWell(
       onTap: () {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => page));
       },
-      child: Positioned(
-        child: Container(
-          margin: EdgeInsets.all(12),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                      colorFilter: new ColorFilter.mode(_color.withOpacity(0.9), BlendMode.color),
-                      image: AssetImage(image_asset),
-                        )),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 6),
-                  child: Container(
-                    child: Center(
-                        child: Text(
-                      texto,
-                      style: GoogleFonts.fredokaOne(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 32,
-                                  color: Colors.white),
-                    )),
-                  ),
+      child: Container(
+        margin: EdgeInsets.all(12),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    colorFilter: new ColorFilter.mode(_color.withOpacity(0.9), BlendMode.color),
+                    image: AssetImage(imageasset),
+                      )),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 6),
+                child: Container(
+                  child: Center(
+                      child: Text(
+                    texto,
+                    style: GoogleFonts.fredokaOne(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 32,
+                                color: Colors.white),
+                  )),
                 ),
               ),
             ),

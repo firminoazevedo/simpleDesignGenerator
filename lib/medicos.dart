@@ -29,7 +29,7 @@ class _MedicosState extends State<Medicos> {
 
   int mxLine = 1;
 
-  double mxFontSize = 36;
+  double mxFontSize = 39;
 
   double txtTopMargin;
 
@@ -79,11 +79,11 @@ class _MedicosState extends State<Medicos> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/3,
-                                              top: MediaQuery.of(context).size.height/7
+                                              top: MediaQuery.of(context).size.height/8
                                                     ),
                       width: MediaQuery.of(context).size.width/2,
                       child: AspectRatio(
-                        aspectRatio: _switchValue ? 1.0 : 1.7,
+                        aspectRatio: _switchValue ? 1.0 : 1.9,
                         child: _image != null
                             ? Image.file(_image, fit: BoxFit.cover)
                             : Container(),
@@ -112,7 +112,7 @@ class _MedicosState extends State<Medicos> {
                             maxLines: 1,
                             style: GoogleFonts.abel(
                                 fontWeight: FontWeight.w400,
-                                fontSize: 14,
+                                fontSize: 16,
                                 color: Colors.white),
                           ),
                         ),
@@ -120,9 +120,9 @@ class _MedicosState extends State<Medicos> {
                     ),
 
 
-                    // texto de especialidade especifica
+                    // CRM
                     Positioned(
-                      top: 65,
+                      top: 55,
                       left: 10,
                       right: 190,
                       child: Container(
@@ -143,10 +143,10 @@ class _MedicosState extends State<Medicos> {
                     
 
                     Positioned(
-                      top: 30,
-                      left: 20,
-                      right: 180,
-                      bottom: 300,
+                      top: 31,
+                      left: 10,
+                      right: 190,
+                      bottom: 293,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                         decoration: BoxDecoration(
@@ -247,7 +247,7 @@ class _MedicosState extends State<Medicos> {
                             decoration:
                                 InputDecoration(
                                   icon: Icon(Icons.calendar_today),
-                                  hintText: "Nome do Profissional"),
+                                  hintText: "Data de atendimento"),
                           ),
                           SizedBox(
                             height: 12,

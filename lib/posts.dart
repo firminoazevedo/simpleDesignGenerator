@@ -147,7 +147,7 @@ class _PostsState extends State<Posts> {
 
                     // texto de especialidade
                     Positioned(
-                      top: MediaQuery.of(context).size.width / 1.33,
+                      top: 263,
                       left: 90,
                       right: 90,
                       child: Container(
@@ -159,7 +159,7 @@ class _PostsState extends State<Posts> {
                             maxLines: 1,
                             style: GoogleFonts.abel(
                                 fontWeight: FontWeight.w400,
-                                fontSize: 14,
+                                fontSize: 15,
                                 color: Colors.white),
                           ),
                         ),
