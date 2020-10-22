@@ -6,29 +6,28 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class Medicos extends StatefulWidget {
+class GreenFooter extends StatefulWidget {
   @override
-  _MedicosState createState() => _MedicosState();
+  _GreenFooterState createState() => _GreenFooterState();
 }
 
-class _MedicosState extends State<Medicos> {
+class _GreenFooterState extends State<GreenFooter> {
   final GlobalKey globalKey = new GlobalKey();
 
-  String bg = "assets/medicos.png";
+  String bg = "assets/bg03.png";
   String headerText = "";
   String footerText = "";
   String centerText = "";
-  String crmText = "";
 
   int mxLine = 1;
 
-  double mxFontSize = 39;
+  double mxFontSize = 42;
 
   double txtTopMargin;
 
@@ -47,7 +46,8 @@ class _MedicosState extends State<Medicos> {
     var image;
     var croppedFile;
     try {
-      image = await ImagePicker.pickImage(source: ImageSource.gallery); // Obter imagem da galeria
+      image = await ImagePicker.pickImage(
+          source: ImageSource.gallery); // Obter imagem da galeria
       // Cortar imagem
       croppedFile = await ImageCropper.cropImage(
           sourcePath: image.path,
@@ -67,7 +67,6 @@ class _MedicosState extends State<Medicos> {
           iosUiSettings: IOSUiSettings(
             minimumAspectRatio: 1.0,
           ));
-
     } catch (platformException) {
       print("NÃO PERMITIDO " + platformException);
     }
@@ -86,7 +85,7 @@ class _MedicosState extends State<Medicos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Medicos'),
+        title: Text('Posts'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -96,17 +95,11 @@ class _MedicosState extends State<Medicos> {
                 key: globalKey,
                 child: Stack(
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width / 3,
-                          top: MediaQuery.of(context).size.height / 8),
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: AspectRatio(
-                        aspectRatio: _switchValue ? 1.0 : 1.9,
-                        child: _image != null
-                            ? Image.file(_image, fit: BoxFit.cover)
-                            : Container(),
-                      ),
+                    AspectRatio(
+                      aspectRatio: _switchValue ? 1.0 : 1.7,
+                      child: _image != null
+                          ? Image.file(_image, fit: BoxFit.cover)
+                          : Container(),
                     ),
 
                     // image background
@@ -119,12 +112,60 @@ class _MedicosState extends State<Medicos> {
                           )
                         : Container(),
 
-                    Container(
-                      width: 200,
+                    Positioned(
+                      top: MediaQuery.of(context).size.width / 1.75,
+                      left: 80,
+                      right: 80,
+                      bottom: 0,
                       child: Column(
                         children: [
-                          SizedBox(
-                            height: 10,
+                          Container(
+                            padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80),
+                              //color: Colors.white,
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                centerText.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                maxLines: mxLine,
+                                maxFontSize: mxFontSize,
+                                style: GoogleFonts.fredokaOne(
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(2, 2),
+                                        blurRadius: 3.0,
+                                        color: Colors.grey,
+                                      ),
+                                      Shadow(
+                                        offset: Offset(6, 6),
+                                        blurRadius: 8.0,
+                                        color: Colors.black,
+                                      ),
+                                    ],
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: mxFontSize,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: AutoSizeText(
+                                headerText,
+                                maxLines: 1,
+                                style: GoogleFonts.oleoScript(
+                                    //fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: Color.fromRGBO(11, 56, 40, 1)),
+                              ),
+                            ),
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
@@ -135,42 +176,7 @@ class _MedicosState extends State<Medicos> {
                                 maxLines: 1,
                                 style: GoogleFonts.abel(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-
-                          // nome do médico
-                          Container(
-                            padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(80),
-                              //color: Colors.white,
-                            ),
-                            child: Center(
-                              child: AutoSizeText(
-                                centerText.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                maxFontSize: mxFontSize,
-                                style: GoogleFonts.fredokaOne(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 40,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                            decoration: BoxDecoration(),
-                            child: Center(
-                              child: AutoSizeText(
-                                crmText.toUpperCase(),
-                                maxLines: 1,
-                                style: GoogleFonts.abel(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
+                                    fontSize: 15,
                                     color: Colors.white),
                               ),
                             ),
@@ -178,32 +184,6 @@ class _MedicosState extends State<Medicos> {
                         ],
                       ),
                     ),
-
-                    // texto de data
-                    (headerText.length > 0)
-                        ? Positioned(
-                            top: 180,
-                            left: 20,
-                            right: 250,
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
-                                color: Colors.white,
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  headerText,
-                                  maxLines: 1,
-                                  style: GoogleFonts.oleoScript(
-                                      //fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      color: Color.fromRGBO(11, 56, 40, 1)),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(),
 
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -242,7 +222,7 @@ class _MedicosState extends State<Medicos> {
                             },
                             decoration: InputDecoration(
                                 icon: Icon(Icons.text_fields),
-                                hintText: "Nome do Médico"),
+                                hintText: "Texto central"),
                           ),
                           TextField(
                             onChanged: (val) {
@@ -251,8 +231,8 @@ class _MedicosState extends State<Medicos> {
                               });
                             },
                             decoration: InputDecoration(
-                                icon: Icon(Icons.calendar_today),
-                                hintText: "Data de atendimento"),
+                                icon: Icon(Icons.account_circle),
+                                hintText: "Nome do Profissional"),
                           ),
                           SizedBox(
                             height: 12,
@@ -267,28 +247,12 @@ class _MedicosState extends State<Medicos> {
                                 icon: Icon(Icons.mode_edit),
                                 hintText: "Especialidade"),
                           ),
-                          TextField(
-                            onChanged: (val) {
-                              setState(() {
-                                crmText = val;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.category), hintText: "CRM"),
-                          ),
                           SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Switch(
-                                  value: _switchValue,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _switchValue = newValue;
-                                    });
-                                  }),
                               RaisedButton(
                                 onPressed: () {
                                   takeScreenshot();
