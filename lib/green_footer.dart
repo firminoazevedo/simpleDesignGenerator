@@ -111,14 +111,15 @@ class _GreenFooterState extends State<GreenFooter> {
                             ),
                           )
                         : Container(),
-
+                    // Textos
                     Positioned(
                       top: MediaQuery.of(context).size.width / 1.75,
-                      left: 80,
-                      right: 80,
-                      bottom: 0,
+                      left: 70,
+                      right: 70,
+                      bottom: 20,
                       child: Column(
                         children: [
+                          // especialidade
                           Container(
                             padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
                             decoration: BoxDecoration(
@@ -129,7 +130,9 @@ class _GreenFooterState extends State<GreenFooter> {
                               child: AutoSizeText(
                                 centerText.toUpperCase(),
                                 textAlign: TextAlign.center,
-                                maxLines: mxLine,
+                                maxLines: 2,
+                                wrapWords: false,
+                                overflow: TextOverflow.visible,
                                 maxFontSize: mxFontSize,
                                 style: GoogleFonts.fredokaOne(
                                     shadows: <Shadow>[
@@ -150,6 +153,9 @@ class _GreenFooterState extends State<GreenFooter> {
                               ),
                             ),
                           ),
+
+                          // Nome do Médico
+                          if (!headerText.isEmpty)
                           Container(
                             padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
                             decoration: BoxDecoration(
@@ -166,7 +172,9 @@ class _GreenFooterState extends State<GreenFooter> {
                                     color: Color.fromRGBO(11, 56, 40, 1)),
                               ),
                             ),
-                          ),
+                          ) ,
+
+                          // Registro no conselho
                           Container(
                             padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                             decoration: BoxDecoration(),
@@ -184,86 +192,91 @@ class _GreenFooterState extends State<GreenFooter> {
                         ],
                       ),
                     ),
-
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          //buildText(headerText),
-                          Spacer(),
-                          //buildText(footerText),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
+
+              SizedBox(height: 10,),
+              /*Center(
+                child: Text('Digite os dados abaixo', style: TextStyle(
+                  color: Colors.grey
+                )),
+              ),*/
+
+              Divider(),
+
               imageSelected
-                  ? Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
+                  ? Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Column(
                         children: <Widget>[
-                          TextField(
-                            onChanged: (val) {
-                              if (val.length > 13) {
-                                setState(() {
-                                  mxFontSize = 24;
-                                  mxLine = 2;
-                                });
-                              } else {
-                                mxFontSize = 42;
-                                mxLine = 1;
-                              }
-                              setState(() {
-                                centerText = val;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.text_fields),
-                                hintText: "Texto central"),
-                          ),
-                          TextField(
-                            onChanged: (val) {
-                              setState(() {
-                                headerText = val;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.account_circle),
-                                hintText: "Nome do Profissional"),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          TextField(
-                            onChanged: (val) {
-                              setState(() {
-                                footerText = val;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                icon: Icon(Icons.mode_edit),
-                                hintText: "Especialidade"),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              RaisedButton(
-                                onPressed: () {
-                                  takeScreenshot();
-                                },
-                                child: Text("Salvar"),
-                              ),
-                            ],
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: <Widget>[
+                                TextField(
+                                  onChanged: (val) {
+                                    if (val.length > 13) {
+                                      setState(() {
+                                        mxFontSize = 24;
+                                        mxLine = 2;
+                                      });
+                                    } else {
+                                      mxFontSize = 42;
+                                      mxLine = 1;
+                                    }
+                                    setState(() {
+                                      centerText = val;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                      icon: Icon(Icons.text_fields),
+                                      hintText: "Especialidade"),
+                                ),
+                                TextField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      headerText = val;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                      icon: Icon(Icons.account_circle),
+                                      hintText: "Nome do Profissional"),
+                                ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                TextField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      footerText = val;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                      icon: Icon(Icons.mode_edit),
+                                      hintText: "Conselho regional"),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    RaisedButton(
+                                      onPressed: () {
+                                        takeScreenshot();
+                                      },
+                                      child: Text("Salvar"),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),
-                    )
+                  )
                   : Container(
                       child: Center(
                         child: Text("Clique no botão adicionar imagem"),
