@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -35,13 +34,16 @@ class ObterImagem {
     } catch (platformException) {
       print("NÃO PERMITIDO " + platformException);
     }
-      if (image != null) {
-        imageSelected = true;
-      } else {
-        _imageDois = croppedFile;
-      }
+
+    if (image != null) {
+      imageSelected = true;
+      _imageDois = croppedFile;
+    } 
+    
     new Directory('storage/emulated/0/' + 'MemeGenerator').create(recursive: true);
+    print(image);
     return _imageDois;
+
   }
 
 }

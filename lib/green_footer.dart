@@ -111,8 +111,7 @@ class _GreenFooterState extends State<GreenFooter> {
                             padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(80),
-                              color: Colors.white,
-                            ),
+                              color: Colors.white),
                             child: Center(
                               child: AutoSizeText(
                                 headerText,
@@ -124,7 +123,6 @@ class _GreenFooterState extends State<GreenFooter> {
                               ),
                             ),
                           ) ,
-
                           // Registro no conselho
                           Container(
                             padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
@@ -146,7 +144,6 @@ class _GreenFooterState extends State<GreenFooter> {
                   ],
                 ),
               ),
-
               SizedBox(height: 10,),
               Divider(),
               imageSelected
@@ -234,6 +231,9 @@ class _GreenFooterState extends State<GreenFooter> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           _image = await ObterImagem().getImage();
+          setState(() {
+            imageSelected = true;
+          });
         },
         child: Icon(Icons.add_a_photo),
       ),
@@ -261,7 +261,6 @@ class _GreenFooterState extends State<GreenFooter> {
     final directory = (await getApplicationDocumentsDirectory()).path;
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData.buffer.asUint8List();
-    //print(pngBytes);
     File imgFile = File('$directory/screenshot${rng.nextInt(200)}.png');
     setState(() {
       _imageFile = imgFile;
