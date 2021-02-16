@@ -3,12 +3,11 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:example_meme_generator/controllers/obter_imagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -19,67 +18,19 @@ class GreenFooter extends StatefulWidget {
 
 class _GreenFooterState extends State<GreenFooter> {
   final GlobalKey globalKey = new GlobalKey();
-
   String bg = "assets/bg03.png";
   String headerText = "";
   String footerText = "";
   String centerText = "";
-
   int mxLine = 1;
-
   double mxFontSize = 42;
-
   double txtTopMargin;
-
   double imageRatio = 1.0;
-
   bool _switchValue = true;
-
   File _image;
   File _imageFile;
-
   bool imageSelected = false;
-
   Random rng = new Random();
-
-  Future getImage() async {
-    var image;
-    var croppedFile;
-    try {
-      image = await ImagePicker.pickImage(
-          source: ImageSource.gallery); // Obter imagem da galeria
-      // Cortar imagem
-      croppedFile = await ImageCropper.cropImage(
-          sourcePath: image.path,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ],
-          androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Cortar',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          iosUiSettings: IOSUiSettings(
-            minimumAspectRatio: 1.0,
-          ));
-    } catch (platformException) {
-      print("NÃO PERMITIDO " + platformException);
-    }
-
-    setState(() {
-      if (image != null) {
-        imageSelected = true;
-      } else {}
-      _image = croppedFile;
-    });
-    new Directory('storage/emulated/0/' + 'MemeGenerator')
-        .create(recursive: true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,14 +148,7 @@ class _GreenFooterState extends State<GreenFooter> {
               ),
 
               SizedBox(height: 10,),
-              /*Center(
-                child: Text('Digite os dados abaixo', style: TextStyle(
-                  color: Colors.grey
-                )),
-              ),*/
-
               Divider(),
-
               imageSelected
                   ? Padding(
                     padding: const EdgeInsets.all(2.0),
@@ -288,8 +232,8 @@ class _GreenFooterState extends State<GreenFooter> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          getImage();
+        onPressed: () async {
+          _image = await ObterImagem().getImage();
         },
         child: Icon(Icons.add_a_photo),
       ),
