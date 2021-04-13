@@ -1,16 +1,11 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:example_meme_generator/controllers/obter_imagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'controllers/salvar_imagem.dart';
 
 class Medicos extends StatefulWidget {
   @override
@@ -25,63 +20,17 @@ class _MedicosState extends State<Medicos> {
   String footerText = "";
   String centerText = "";
   String crmText = "";
-
   int mxLine = 1;
-
   double mxFontSize = 39;
-
   double txtTopMargin;
-
   double imageRatio = 1.0;
-
   bool _switchValue = true;
-
   File _image;
   File _imageFile;
-
   bool imageSelected = false;
-
   Random rng = new Random();
 
-  Future getImage() async {
-    var image;
-    var croppedFile;
-    try {
-      image = await ImagePicker.pickImage(source: ImageSource.gallery); // Obter imagem da galeria
-      // Cortar imagem
-      croppedFile = await ImageCropper.cropImage(
-          sourcePath: image.path,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ],
-          androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Cortar',
-              toolbarColor: Colors.deepOrange,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          iosUiSettings: IOSUiSettings(
-            minimumAspectRatio: 1.0,
-          ));
-
-    } catch (platformException) {
-      print("NÃO PERMITIDO " + platformException);
-    }
-
-    setState(() {
-      if (image != null) {
-        imageSelected = true;
-      } else {}
-      _image = croppedFile;
-    });
-    new Directory('storage/emulated/0/' + 'MemeGenerator')
-        .create(recursive: true);
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -290,8 +239,21 @@ class _MedicosState extends State<Medicos> {
                                     });
                                   }),
                               RaisedButton(
-                                onPressed: () {
-                                  takeScreenshot();
+                                onPressed: () async {
+                                  _imageFile =  await SalvarImage().takeScreenshot(globalKey);
+                                  showDialog(context: context,
+                                    builder: (BuildContext context) => AlertDialog(
+                                    title: Text('Imagem salva!'),
+                                    content: Text('Verique sua galeria '),
+                                    actions: [
+                                      FlatButton(onPressed: (){
+                                        Navigator.of(context).pop();
+                                      }, child: Text('Fechar'))
+                                    ],
+                                  ));
+                                  setState(() {
+                                    
+                                  });
                                 },
                                 child: Text("Salvar"),
                               ),
@@ -310,9 +272,13 @@ class _MedicosState extends State<Medicos> {
           ),
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          getImage();
+        onPressed: () async {
+          _image = await ObterImagem().getImage();
+          setState(() {
+            imageSelected = true;
+          });
         },
         child: Icon(Icons.add_a_photo),
       ),
@@ -331,36 +297,5 @@ class _MedicosState extends State<Medicos> {
             fontSize: 26,
           ),
         ));
-  }
-
-  takeScreenshot() async {
-    RenderRepaintBoundary boundary =
-        globalKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 2.2);
-    final directory = (await getApplicationDocumentsDirectory()).path;
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List pngBytes = byteData.buffer.asUint8List();
-    //print(pngBytes);
-    File imgFile = File('$directory/screenshot${rng.nextInt(200)}.png');
-    setState(() {
-      _imageFile = imgFile;
-    });
-    _savefile(_imageFile);
-    //saveFileLocal();
-    imgFile.writeAsBytes(pngBytes);
-  }
-
-  _savefile(File file) async {
-    await _askPermission();
-    final result = await ImageGallerySaver.saveImage(
-        Uint8List.fromList(await file.readAsBytes()));
-    print(result);
-  }
-
-  _askPermission() async {
-    // ignore: unused_local_variable
-    Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler().requestPermissions(
-            [PermissionGroup.photos, PermissionGroup.storage]);
   }
 }

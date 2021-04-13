@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:example_meme_generator/controllers/obter_imagem.dart';
+import 'package:example_meme_generator/controllers/salvar_imagem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class GreenFooter extends StatefulWidget {
   @override
@@ -17,7 +12,7 @@ class GreenFooter extends StatefulWidget {
 }
 
 class _GreenFooterState extends State<GreenFooter> {
-  final GlobalKey globalKey = new GlobalKey();
+  final GlobalKey globalKey = GlobalKey();
   String bg = "assets/bg03.png";
   String headerText = "";
   String footerText = "";
@@ -30,8 +25,6 @@ class _GreenFooterState extends State<GreenFooter> {
   File _image;
   File _imageFile;
   bool imageSelected = false;
-  Random rng = new Random();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +68,6 @@ class _GreenFooterState extends State<GreenFooter> {
                             padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(80),
-                              //color: Colors.white,
                             ),
                             child: Center(
                               child: AutoSizeText(
@@ -205,8 +197,21 @@ class _GreenFooterState extends State<GreenFooter> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     RaisedButton(
-                                      onPressed: () {
-                                        takeScreenshot();
+                                      onPressed: () async {
+                                        _imageFile =  await SalvarImage().takeScreenshot(globalKey);
+                                        showDialog(context: context,
+                                          builder: (BuildContext context) => AlertDialog(
+                                          title: Text('Imagem salva!'),
+                                          content: Text('Verique sua galeria '),
+                                          actions: [
+                                            FlatButton(onPressed: (){
+                                              Navigator.of(context).pop();
+                                            }, child: Text('Fechar'))
+                                          ],
+                                        ));
+                                        setState(() {
+                                          
+                                        });
                                       },
                                       child: Text("Salvar"),
                                     ),
@@ -230,10 +235,13 @@ class _GreenFooterState extends State<GreenFooter> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          _image = await ObterImagem().getImage();
-          setState(() {
-            imageSelected = true;
-          });
+          try {
+            _image = await ObterImagem().getImage();
+            setState(() {
+              imageSelected = true;
+            });
+          } catch (e) {
+            }
         },
         child: Icon(Icons.add_a_photo),
       ),
@@ -252,35 +260,5 @@ class _GreenFooterState extends State<GreenFooter> {
             fontSize: 26,
           ),
         ));
-  }
-
-  takeScreenshot() async {
-    RenderRepaintBoundary boundary =
-        globalKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 2.2);
-    final directory = (await getApplicationDocumentsDirectory()).path;
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List pngBytes = byteData.buffer.asUint8List();
-    File imgFile = File('$directory/screenshot${rng.nextInt(200)}.png');
-    setState(() {
-      _imageFile = imgFile;
-    });
-    _savefile(_imageFile);
-    //saveFileLocal();
-    imgFile.writeAsBytes(pngBytes);
-  }
-
-  _savefile(File file) async {
-    await _askPermission();
-    final result = await ImageGallerySaver.saveImage(
-        Uint8List.fromList(await file.readAsBytes()));
-    print(result);
-  }
-
-  _askPermission() async {
-    // ignore: unused_local_variable
-    Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler().requestPermissions(
-            [PermissionGroup.photos, PermissionGroup.storage]);
   }
 }
