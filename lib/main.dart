@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:example_meme_generator/green_footer.dart';
 import 'package:example_meme_generator/medicos.dart';
+import 'package:example_meme_generator/parabens.dart';
 import 'package:example_meme_generator/posts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -58,6 +59,7 @@ class _HomePageState extends State<HomePage> {
                 buildCardWidget(Colors.amber, 'Posts', Posts(), 'assets/bg01.png'),
                 buildCardWidget(Colors.green, 'Médicos', Medicos(), 'assets/medicos.png'),
                 buildCardWidget(Colors.deepOrange, 'Posts', GreenFooter(), 'assets/bg03.png'),
+                buildCardWidget(Colors.green, 'Parabéns', Parabens(), 'assets/bg03.png'),
               ],
             ),
           ),
