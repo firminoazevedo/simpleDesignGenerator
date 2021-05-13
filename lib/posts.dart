@@ -236,7 +236,7 @@ class _PostsState extends State<Posts> {
                                 });
                               }),
                               
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () async {
                                   _imageFile =  await SalvarImage().takeScreenshot(globalKey);
                                   showDialog(context: context,
@@ -244,7 +244,7 @@ class _PostsState extends State<Posts> {
                                     title: Text('Imagem salva!'),
                                     content: Text('Verique sua galeria '),
                                     actions: [
-                                      FlatButton(onPressed: (){
+                                      TextButton(onPressed: (){
                                         Navigator.of(context).pop();
                                       }, child: Text('Fechar'))
                                     ],

@@ -98,7 +98,8 @@ class _GreenFooterState extends State<GreenFooter> {
                           ),
 
                           // Nome do Médico
-                          if (!headerText.isEmpty)
+                          // ignore: sdk_version_ui_as_code
+                          if (headerText.isNotEmpty)
                           Container(
                             padding: EdgeInsets.fromLTRB(1, 1, 1, 1),
                             decoration: BoxDecoration(
@@ -196,7 +197,7 @@ class _GreenFooterState extends State<GreenFooter> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    RaisedButton(
+                                    ElevatedButton(
                                       onPressed: () async {
                                         _imageFile =  await SalvarImage().takeScreenshot(globalKey);
                                         showDialog(context: context,
@@ -204,7 +205,7 @@ class _GreenFooterState extends State<GreenFooter> {
                                           title: Text('Imagem salva!'),
                                           content: Text('Verique sua galeria '),
                                           actions: [
-                                            FlatButton(onPressed: (){
+                                            TextButton(onPressed: (){
                                               Navigator.of(context).pop();
                                             }, child: Text('Fechar'))
                                           ],

@@ -238,7 +238,7 @@ class _MedicosState extends State<Medicos> {
                                       _switchValue = newValue;
                                     });
                                   }),
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () async {
                                   _imageFile =  await SalvarImage().takeScreenshot(globalKey);
                                   showDialog(context: context,
@@ -246,7 +246,7 @@ class _MedicosState extends State<Medicos> {
                                     title: Text('Imagem salva!'),
                                     content: Text('Verique sua galeria '),
                                     actions: [
-                                      FlatButton(onPressed: (){
+                                      TextButton(onPressed: (){
                                         Navigator.of(context).pop();
                                       }, child: Text('Fechar'))
                                     ],

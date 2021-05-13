@@ -23,7 +23,7 @@ class _ParabensState extends State<Parabens> {
 
   int mxLine = 1;
 
-  double mxFontSize = 35;
+  double mxFontSize = 30;
 
   double txtTopMargin;
 
@@ -53,13 +53,6 @@ class _ParabensState extends State<Parabens> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    AspectRatio(
-                      aspectRatio: _switchValue ? 1.0 : 1.7,
-                      child: _image != null
-                          ? Image.file(_image, fit: BoxFit.cover)
-                          : Container(),
-                    ),
-
                     // image background
                     _image != null
                         ? AspectRatio(
@@ -76,8 +69,9 @@ class _ParabensState extends State<Parabens> {
                       children: [
                         _image != null
                             ? Container(
-                                width: 180.0,
-                                height: 180.0,
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.width * 0.41,
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.white, width: 3),
@@ -87,85 +81,29 @@ class _ParabensState extends State<Parabens> {
                                         image: FileImage(_image))),
                               )
                             : Container(),
-                            SizedBox(height: 8,),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.003,
+                        ),
+
+                        // Nome do aniversariante
                         Center(
                           child: AutoSizeText(
                             centerText,
                             textAlign: TextAlign.center,
                             maxLines: mxLine,
-                            maxFontSize: mxFontSize,
+                            maxFontSize: mxFontSize *
+                                MediaQuery.of(context).textScaleFactor,
                             style: GoogleFonts.fredokaOne(
-                                fontWeight: FontWeight.w500,
-                                fontSize: mxFontSize,
-                                color: Colors.white),
+                              fontWeight: FontWeight.w500,
+                              fontSize: mxFontSize *
+                                  MediaQuery.of(context).textScaleFactor,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
                     ),
 
-                    Positioned(
-                      top: MediaQuery.of(context).size.width / 2.15,
-                      left: 80,
-                      right: 80,
-                      bottom: 140,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(80),
-                          //color: Colors.white,
-                        ),
-                        child: RotationTransition(
-                            turns: AlwaysStoppedAnimation(-8 / 360),
-                            child: Container()),
-                      ),
-                    ),
-
-                    // texto do meio
-                    (headerText.length > 0)
-                        ? Positioned(
-                            top: MediaQuery.of(context).size.width / 1.52,
-                            left: 95,
-                            right: 95,
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
-                                color: Colors.white,
-                              ),
-                              child: Center(
-                                child: AutoSizeText(
-                                  headerText,
-                                  maxLines: 1,
-                                  style: GoogleFonts.oleoScript(
-                                      //fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      color: Color.fromRGBO(11, 56, 40, 1)),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(),
-
-                    // texto de especialidade
-                    Positioned(
-                      top: 263,
-                      left: 90,
-                      right: 90,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                        decoration: BoxDecoration(),
-                        child: Center(
-                          child: AutoSizeText(
-                            footerText.toUpperCase(),
-                            maxLines: 1,
-                            style: GoogleFonts.abel(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                                color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
@@ -246,9 +184,8 @@ class _ParabensState extends State<Parabens> {
                             borderRadius: BorderRadius.circular(50),
                             child: Container(
                               height: 50,
-                              width: double.infinity,
-                              child: RaisedButton(
-                                color: Colors.green,
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              child: ElevatedButton(
                                 onPressed: () async {
                                   _imageFile = await SalvarImage()
                                       .takeScreenshot(globalKey);
@@ -260,7 +197,7 @@ class _ParabensState extends State<Parabens> {
                                             content:
                                                 Text('Verique sua galeria '),
                                             actions: [
-                                              FlatButton(
+                                              TextButton(
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
